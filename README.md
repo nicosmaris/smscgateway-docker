@@ -2,8 +2,9 @@
 
 # smscgateway-docker
 
-One of the steps of building this docker is to download the artifact that has the compiled code and its dependencies.
+The last command below assumes that there is a cassandra at localhost, so if you have one already, you can skip the first command.
 
-This means that a commit cannot run while a new artifact is in progress (2:30 am GR)
-
+docker run --name db --net=host -p 127.0.0.1:9042:9042 -p 127.0.0.1:9160:9160 -d cassandra
+docker run --name smsc --net=host -p 0.0.0.0:8080:8080 -d restcomm/smsc
+ 
 

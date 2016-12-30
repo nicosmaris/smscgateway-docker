@@ -15,7 +15,6 @@ script:
 #  - echo "The following test is pending: https://github.com/RestComm/smscgateway/blob/master/core/domain/src/test/java/org/mobicents/smsc/domain/SmscDatabaseManagementTest.java#L40"
 
 # valid call to get list of sms messages with wrong credentials (non existent account)
-# the following returns zero exit code curl -X GET http://ACae6e420f425248d6a26948c17a9e2acf:77f8c12cc7b8f8423e5c38b035249166@tadhack.restcomm.com:80/restcomm/2012-04-24/Accounts/ACae6e420f425248d6a26948c17a9e2acf/SMS/Messages.json
   - docker exec -ti smsc curl -X GET http://ACae6e420f425248d6a26948c17a9e2acf:77f8c12cc7b8f8423e5c38b035249166@127.0.0.1:8080/restcomm/2012-04-24/Accounts/ACae6e420f425248d6a26948c17a9e2acf/SMS/Messages.json
   - docker logs smsc
   - docker logs db
