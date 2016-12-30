@@ -1,0 +1,21 @@
+sudo: required
+
+services:
+  - docker
+
+before_install: 
+  - docker run --name db --net=host -p 127.0.0.1:9042:9042 -p 127.0.0.1:9160:9160 -d cassandra
+  - docker build -t image .
+  - docker run --name smsc --net=host -p 0.0.0.0:8080:8080 -d image
+  - sleep 80
+  - docker ps -a
+  - docker exec -ti db nodetool status
+
+script:
+#  - echo "The following test is pending: https://github.com/RestComm/smscgateway/blob/master/core/domain/src/test/java/org/mobicents/smsc/domain/SmscDatabaseManagementTest.java#L40"
+
+# valid call to get list of sms messages with wrong credentials (non existent account)
+# the following returns zero exit code curl -X GET http://ACae6e420f425248d6a26948c17a9e2acf:77f8c12cc7b8f8423e5c38b035249166@tadhack.restcomm.com:80/restcomm/2012-04-24/Accounts/ACae6e420f425248d6a26948c17a9e2acf/SMS/Messages.json
+  - docker exec -ti smsc curl -X GET http://ACae6e420f425248d6a26948c17a9e2acf:77f8c12cc7b8f8423e5c38b035249166@127.0.0.1:8080/restcomm/2012-04-24/Accounts/ACae6e420f425248d6a26948c17a9e2acf/SMS/Messages.json
+  - docker logs smsc
+  - docker logs db
