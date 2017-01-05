@@ -10,7 +10,10 @@ docker run --name smsc --net=host -p 0.0.0.0:8080:8080 -d restcomm/smsc
  
 # Environment variables
 
-This docker is based on phusion/baseimage which comes with an init process /sbin/my_init. The file scripts/automate_conf.sh is added at the image as /etc/my_init.d/restcommautomate.sh and thus it runs upon startup.
+This docker is based on phusion/baseimage which comes with an init process /sbin/my_init and runit to run scripts at /etc/service/*/run/ as daemons.
+
+1. The file scripts/automate_conf.sh is added at the image as /etc/my_init.d/restcommautomate.sh and thus it runs upon startup
+2. The file scripts/restcomm_smsc_service.sh runs as a daemon. The file scripts/restcomm_toolsconf.sh adds the folder /etc/service/restcomm and moves it to /etc/service/restcomm/run
 
 Optionally, if the environment variable ENVCONFURL is given at 'docker run', this file download a script from the url ENVCONFURL and adds it at the terminal, otherwise it follows the default settings of  scripts/restcomm_smsc_service.sh
 

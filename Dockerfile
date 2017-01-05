@@ -62,7 +62,7 @@ ADD ./scripts/restcomm_toolsconf.sh /etc/my_init.d/restcommtoolsconf.sh
 ADD ./scripts/restcomm_support_load_balancer.sh /etc/my_init.d/restcommtoolsconf_loadbalancer.sh
 
 # the entrypoint is init and this is the main script
-ADD ./scripts/restcomm_smsc_service.sh /etc/my_init.d/restcomm_smsc_service.sh
+ADD ./scripts/restcomm_smsc_service.sh /tmp/restcomm_service.sh
 RUN chmod +x /etc/my_init.d/restcomm*.sh
 RUN chmod +x /tmp/.restcommenv.sh
 
