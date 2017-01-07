@@ -11,14 +11,6 @@ LOGS_DIR_HOST=$LOGS_DIR_ZIP/host
 
 SYSLOGS_DIR=/var/log
 
-restcomm_version () {
- if [ -d "$LOGS_DIR_HOST" ]; then
-     cp $RESTCOMM_LOG_BASE/version $LOGS_DIR_HOST/
-  return 0
- fi
-   exit 1
-}
-
 docker_logs () {
 if [ -d "$LOGS_DIR_HOST" ]; then
     docker logs $1 2>&1 | head -n 1250 > $LOGS_DIR_HOST/DockerLogs
@@ -95,15 +87,13 @@ fi
 
 mkdir -p $LOGS_DIR_HOST
 
-tcpdump_logs
+#tcpdump_logs
 docker_logs $1
 netstat_stats
 system_usage_info
 system_logs
-restcomm_version
 sys_date
 
-docker exec $1  /bin/sh -c "/opt/Restcomm-JBoss-AS7/bin/restcomm/logs_collect.sh $time_logs $dtar"
 }
 
 
