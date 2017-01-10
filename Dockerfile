@@ -16,7 +16,7 @@ apt-cache search mysql-client-core && \
 apt-get update && \
 apt-get install -y \
 screen wget ipcalc bsdtar oracle-java7-installer \
-mysql-client-core-5.7 openssl unzip nfs-common tcpdump dnsutils net-tools \
+mysql-client-core-5.7 openssl unzip nfs-common dnsutils net-tools \
 oracle-java7-set-default \
 lksctp-tools && \
 curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | python && \
@@ -45,7 +45,6 @@ ENV jboss.server.name simulator
 
 # add files for SSL and logging
 ADD ./ca-startcom.der ${INSTALL_DIR}/jboss-5.1.0.GA/ca-startcom.der
-ADD ./cron_files/tcpdump_crontab /etc/cron.d/restcommtcpdump-cron
 
 # the entrypoint of phusion baseimage is rinit
 CMD ["/sbin/my_init"]
