@@ -14,17 +14,19 @@ Optionally, if the environment variable ENVCONFURL is given at 'docker run', thi
 
 # Logs
 
-To collect logs of your container (assuming that it is named smsc):
+To read jboss logs of your container (assuming that it is named smsc) you can run 'docker logs smsc'. The same output along with more OS-level logs can be captured with the following command:
 
 ```
 provisioner/docker_do.sh -c smsc -l
 ```
 
-To read them:
+
+The above command copies container logs to the host. To read them, type:
 
 ```
 sudo bash -c "find /var/log/restcomm*/host -type f -exec cat {} \;"
 ```
+
 
 # Contribute to RestComm
 
