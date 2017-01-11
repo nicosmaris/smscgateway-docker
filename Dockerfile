@@ -3,10 +3,11 @@ FROM phusion/baseimage:latest
 
 #MAINTAINER TBD
 
-# installs first the db client (cqlsh) and java 7.
 ENV DEBIAN_FRONTEND noninteractive
 ENV INSTALL_DIR /opt/Restcomm-SMSC
+ENV jboss.server.name simulator
 
+# installs first the db client (cqlsh) and java 7. This docker layer is the only one that can be cached initially
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
 echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true |  /usr/bin/debconf-set-selections && \
 locale-gen en_US en_US.UTF-8 && \
@@ -24,40 +25,40 @@ pip install cqlsh && \
 apt-get autoremove && \
 apt-get autoclean && \
 rm -rf /var/lib/apt/lists/* && \
-mkdir -p ${INSTALL_DIR}
+mkdir -p ${INSTALL_DIR} && \
+`# the entrypoint of phusion baseimage is rinit` \
+mkdir -p /etc/my_init.d && \
+`# jboss starts as a service of phusion baseimage` \
+mkdir -p /etc/service/restcomm
+
+# the entrypoint of phusion baseimage is rinit
+ADD ./scripts/automate_conf.sh /etc/my_init.d/restcommautomate.sh
+ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh
+CMD ["/sbin/my_init"]
+
+# jboss starts as a service of phusion baseimage
+ADD ./scripts/restcomm_smsc_service.sh /etc/service/restcomm/run
 
 # downloading 330MB is faster than downloading the maven dependencies and compiling the source
 RUN wget -qO- https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/smsc-version.txt -O version.txt && \
-mv version.txt /tmp/version
-RUN wget -qc https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/release/restcomm-smsc-`cat /tmp/version`.zip -O restcomm-smsc.zip && \
+mv version.txt /tmp/version && \
+wget -qc https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/release/restcomm-smsc-`cat /tmp/version`.zip -O restcomm-smsc.zip && \
 unzip -qq restcomm-smsc.zip -d /opt/ && \
 mv /opt/restcomm-smsc-*/*/ ${INSTALL_DIR} && \
 rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
 rm -rf ${INSTALL_DIR}/cassandra/apache* && \
 rm -rf ${INSTALL_DIR}/jboss-5.1.0.GA/server/default && \
-echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version
-
-RUN ls -la ${INSTALL_DIR}
-RUN chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/*
-RUN mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log
-ENV jboss.server.name simulator
-
-# the entrypoint of phusion baseimage is rinit
-CMD ["/sbin/my_init"]
-RUN mkdir -p /etc/my_init.d
-ADD ./scripts/automate_conf.sh /etc/my_init.d/restcommautomate.sh
-ADD ./scripts/restcomm_setenv.sh /tmp/.restcommenv.sh
-RUN chmod +x /etc/my_init.d/restcomm*.sh
-#RUN chmod +x /tmp/.restcommenv.sh
-
-# jboss starts as a service of phusion baseimage
-RUN mkdir -p /etc/service/restcomm
-ADD ./scripts/restcomm_smsc_service.sh /etc/service/restcomm/run
-
-# attaching jboss log files to 'docker logs'
-RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/version
-RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log
-RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log
+echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version && \
+`# making the downloaded jboss files executable` \
+chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
+mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log && \
+`# the entrypoint of phusion baseimage is rinit` \
+chmod +x /etc/my_init.d/restcomm*.sh && \
+chmod +x /tmp/.restcommenv.sh && \
+`# attaching jboss log files to 'docker logs'` \
+ln -sf /dev/stdout /opt/Restcomm-SMSC/version && \
+ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log && \
+ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log
 
 EXPOSE 8080 
