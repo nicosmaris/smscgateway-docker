@@ -34,7 +34,7 @@ unzip -qq restcomm-smsc.zip -d /opt/ && \
 mv /opt/restcomm-smsc-*/*/ ${INSTALL_DIR} && \
 rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
-rm -rf ${INSTALL_DIR}/cassandra && \
+rm -rf ${INSTALL_DIR}/cassandra/apache* && \
 rm -rf ${INSTALL_DIR}/jboss-5.1.0.GA/server/default && \
 echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version
 
