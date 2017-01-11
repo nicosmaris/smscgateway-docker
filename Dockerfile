@@ -43,9 +43,6 @@ RUN chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/*
 RUN mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log
 ENV jboss.server.name simulator
 
-# add files for SSL and logging
-ADD ./ca-startcom.der ${INSTALL_DIR}/jboss-5.1.0.GA/ca-startcom.der
-
 # the entrypoint of phusion baseimage is rinit
 CMD ["/sbin/my_init"]
 RUN mkdir -p /etc/my_init.d
