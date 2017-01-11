@@ -40,7 +40,6 @@ echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version
 
 RUN ls -la ${INSTALL_DIR}
 RUN chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/*
-RUN mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log
 ENV jboss.server.name simulator
 
 # the entrypoint of phusion baseimage is rinit
