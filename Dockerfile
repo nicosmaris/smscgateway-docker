@@ -59,9 +59,6 @@ RUN mkdir -p /etc/service/restcomm
 ADD ./scripts/restcomm_smsc_service.sh /etc/service/restcomm/run
 
 # attaching jboss log files to 'docker logs'
-RUN mkdir -p /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log
-RUN touch /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log 
-RUN touch /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log 
 RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/version
 RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log
 RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log
