@@ -63,5 +63,7 @@ RUN mkdir -p /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log
 RUN touch /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log 
 RUN touch /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log 
 RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/version
+RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log
+RUN ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log
 
 EXPOSE 8080 
