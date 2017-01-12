@@ -13,7 +13,7 @@ SYSLOGS_DIR=/var/log
 
 docker_logs () {
 if [ -d "$LOGS_DIR_HOST" ]; then
-    docker logs $1 2>&1 | head -n 10000 > $LOGS_DIR_HOST/DockerLogs
+    docker logs $1 2>&1 > $LOGS_DIR_HOST/DockerLogs
     return 0
  fi
    exit 1
