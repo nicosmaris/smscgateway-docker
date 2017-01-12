@@ -6,7 +6,7 @@ services:
 before_install: 
   - docker run --name db --net=host -p 127.0.0.1:9042:9042 -p 127.0.0.1:9160:9160 -d cassandra
   - docker build -t image .
-  - docker run --name smsc --net=host -e ENVCONFURL="https://raw.githubusercontent.com/nicosmaris/smscgateway-docker/master/env_files/restcomm_env_smsc_locally.sh" -p 0.0.0.0:8080:8080 -d image
+  - docker run --name smsc --net=host -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/smscgateway-docker/master/env_files/restcomm_env_smsc_locally.sh" -p 0.0.0.0:8080:8080 -d image
   - echo 'waiting 80 seconds for jboss to start...'
   - sleep 80
   - docker ps -a
