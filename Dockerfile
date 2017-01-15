@@ -17,11 +17,12 @@ apt-cache search mysql-client-core && \
 apt-get update && \
 apt-get install -y \
 screen wget ipcalc bsdtar oracle-java7-installer \
-mysql-client-core-5.7 openssl unzip nfs-common dnsutils net-tools \
+mysql-client-core-5.7 openssl unzip nfs-common dnsutils net-tools xmlstarlet \
 oracle-java7-set-default \
 lksctp-tools && \
 curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | python && \
 pip install cqlsh && \
+alias xml=xmlstarlet && ln -s /usr/bin/xmlstarlet /usr/bin/xml && \
 apt-get autoremove && \
 apt-get autoclean && \
 rm -rf /var/lib/apt/lists/* && \
@@ -45,18 +46,18 @@ ADD ./scripts/restcomm_smsc_service.sh /etc/service/restcomm/run
 #wget -qc https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/release/restcomm-smsc-`cat /tmp/version`.zip -O restcomm-smsc.zip && \
 #unzip -qq restcomm-smsc.zip -d /opt/ && \
 
+#rm -rf ${INSTALL_DIR}/jboss-5.1.0.GA/server/default && \
+#mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log && \
+
 RUN wget -qc https://github.com/RestComm/smscgateway/releases/download/7.2.109/restcomm-smsc-7.2.109.zip -O restcomm-smsc.zip && \
 unzip -qq restcomm-smsc.zip -d /opt/ && \
 mv /opt/restcomm-smsc-*/*/ ${INSTALL_DIR} && \
 rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
 rm -rf ${INSTALL_DIR}/cassandra/apache* && \
-#rm -rf ${INSTALL_DIR}/jboss-5.1.0.GA/server/default && \
 echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version && \
 `# making the downloaded jboss files executable` \
 chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
-mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/default/log && \
-#mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log && \
 `# the entrypoint of phusion baseimage is rinit` \
 chmod +x /etc/my_init.d/restcomm*.sh && \
 chmod +x /tmp/.restcommenv.sh && \
