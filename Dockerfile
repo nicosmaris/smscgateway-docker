@@ -5,7 +5,7 @@ FROM phusion/baseimage:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INSTALL_DIR /opt/Restcomm-SMSC
-ENV jboss.server.name simulator
+ENV jboss.server.name default
 
 # installs first the db client (cqlsh) and java 7. This docker layer is the only one that can be cached initially
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
@@ -56,6 +56,7 @@ rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
 rm -rf ${INSTALL_DIR}/cassandra/apache* && \
 echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version && \
+mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/default/log && \
 `# making the downloaded jboss files executable` \
 chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
 `# the entrypoint of phusion baseimage is rinit` \
