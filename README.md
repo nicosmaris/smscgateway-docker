@@ -4,7 +4,17 @@
 
 The last command below assumes that there is a cassandra at localhost, so if you have one already, you can skip the first command.
 
-`docker run --name db --net=host -p 127.0.0.1:9042:9042 -p 127.0.0.1:9160:9160 -d cassandra`
+`docker run --name db --net=host -p 127.0.0.1:9042:9042 -p 127.0.0.1:9160:9160 -d cassandra:2.0`
+
+If you used the above command, you will need to create the Cassandra Keysapce by first connecting to the cassandra command line with
+
+`docker exec -ti cassandra cqlsh localhost`
+
+Then create the RestCommSMSC with the below command
+
+`CREATE KEYSPACE "RestCommSMSC" WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 1};`
+
+Then run the RestComm SMSC docker image
 
 `docker run --name smsc --net=host -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/smscgateway-docker/master/env_files/restcomm_env_smsc_locally.sh" -p 0.0.0.0:8080:8080 -d restcomm/smscgateway-docker`
 
