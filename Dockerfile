@@ -51,11 +51,12 @@ mv /opt/restcomm-smsc-*/*/ ${INSTALL_DIR} && \
 rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
 rm -rf ${INSTALL_DIR}/cassandra/apache* && \
-rm -rf ${INSTALL_DIR}/jboss-5.1.0.GA/server/default && \
+#rm -rf ${INSTALL_DIR}/jboss-5.1.0.GA/server/default && \
 echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version && \
 `# making the downloaded jboss files executable` \
 chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
-mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log && \
+mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/default/log && \
+#mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/simulator/log && \
 `# the entrypoint of phusion baseimage is rinit` \
 chmod +x /etc/my_init.d/restcomm*.sh && \
 chmod +x /tmp/.restcommenv.sh && \
