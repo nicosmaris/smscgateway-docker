@@ -40,9 +40,12 @@ CMD ["/sbin/my_init"]
 ADD ./scripts/restcomm_smsc_service.sh /etc/service/restcomm/run
 
 # downloading 330MB is faster than downloading the maven dependencies and compiling the source
-RUN wget -qO- https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/smsc-version.txt -O version.txt && \
-mv version.txt /tmp/version && \
-wget -qc https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/release/restcomm-smsc-`cat /tmp/version`.zip -O restcomm-smsc.zip && \
+#RUN wget -qO- https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/smsc-version.txt -O version.txt && \
+#mv version.txt /tmp/version && \
+#wget -qc https://mobicents.ci.cloudbees.com/job/RestComm-SMSC/lastSuccessfulBuild/artifact/release/restcomm-smsc-`cat /tmp/version`.zip -O restcomm-smsc.zip && \
+#unzip -qq restcomm-smsc.zip -d /opt/ && \
+
+wget -qc https://github.com/RestComm/smscgateway/releases/download/7.2.109/restcomm-smsc-7.2.109.zip -O restcomm-smsc.zip && \
 unzip -qq restcomm-smsc.zip -d /opt/ && \
 mv /opt/restcomm-smsc-*/*/ ${INSTALL_DIR} && \
 rm restcomm-smsc.zip && \
