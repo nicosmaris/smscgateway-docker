@@ -15,10 +15,10 @@ class Messages(object):
         @param body_dict: {To': dest, 'From': src, 'Body': text} to send SMS or None to get the list of SMS
         @rtype: requests.Response
         """
-        #host = 'tadhack.restcomm.com'
-        host = '127.0.0.1:8080'
+        #protocol_host_port = 'https://tadhack.restcomm.com'
+        protocol_host_port = 'http://127.0.0.1:8080'
         auth = (self.sid, self.token)
-        urlprefix = "https://%s/restcomm/2012-04-24/Accounts/%s" % (host, self.sid)
+        urlprefix = protocol_host_port + "/restcomm/2012-04-24/Accounts/" + self.sid
         endpoint = '/SMS/Messages.json'
         url = urlprefix + endpoint
         method = 'GET'
