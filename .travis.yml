@@ -1,4 +1,7 @@
+language: python
 sudo: required
+python: '2.7'
+cache: pip
 
 services:
   - docker
@@ -11,11 +14,19 @@ before_install:
   - sleep 80
   - docker ps -a
   - docker exec -ti db nodetool status
+  - docker exec -ti smsc bash -c 'ps -ef | grep jboss'
 
 script:
 #  - echo "The following test is pending: https://github.com/RestComm/smscgateway/blob/master/core/domain/src/test/java/org/mobicents/smsc/domain/SmscDatabaseManagementTest.java#L40"
+  - pip install -r requirements.txt
+  - python test.py
+  - printf "\n\nserver.log\n\n"
+  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log server.log
+  - cat server.log
+  - printf "\n\nboot.log\n\n"
+  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log boot.log
+  - cat boot.log
+  - printf "\n\ncdr.log\n\n"
+  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/cdr.log cdr.log
+  - cat cdr.log
 
-# valid call to get list of sms messages with wrong credentials (non existent account)
-  - docker exec -ti smsc curl -X GET http://ACae6e420f425248d6a26948c17a9e2acf:77f8c12cc7b8f8423e5c38b035249166@127.0.0.1:8080/restcomm/2012-04-24/Accounts/ACae6e420f425248d6a26948c17a9e2acf/SMS/Messages.json
-  - sudo bash provisioner/docker_do.sh -c smsc -l
-  - sudo bash provisioner/logs.sh
