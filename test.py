@@ -16,7 +16,7 @@ class Messages(object):
         @rtype: requests.Response
         """
         #host = 'tadhack.restcomm.com'
-        host = '127.0.0.1'
+        host = '127.0.0.1:8080'
         auth = (self.sid, self.token)
         urlprefix = "https://%s/restcomm/2012-04-24/Accounts/%s" % (host, self.sid)
         endpoint = '/SMS/Messages.json'
