@@ -16,7 +16,7 @@ class Messages(object):
         @rtype: requests.Response
         """
         #protocol_host_port = 'https://tadhack.restcomm.com'
-        protocol_host_port = 'http://127.0.0.1:8080'
+        protocol_host_port = 'https://127.0.0.1:8080'
         auth = (self.sid, self.token)
         urlprefix = protocol_host_port + "/restcomm/2012-04-24/Accounts/" + self.sid
         endpoint = '/SMS/Messages.json'
