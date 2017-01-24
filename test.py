@@ -54,7 +54,7 @@ def line(regex, filepath):
                 matched = match.group()
                 if result==False:
                     result = "line %d: %s\n" % (counter, matched)
-                else
+                else:
                     result += "line %d: %s\n" % (counter, matched)
     return result
 
