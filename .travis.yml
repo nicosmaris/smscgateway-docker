@@ -7,6 +7,7 @@ services:
   - docker
 
 before_install: 
+  - pip install -r requirements.txt
   - docker run --name db --net=host -p 127.0.0.1:9042:9042 -p 127.0.0.1:9160:9160 -d cassandra
   - docker build -t image .
   - docker run --name smsc --net=host -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/smscgateway-docker/master/env_files/restcomm_env_smsc_locally.sh" -p 0.0.0.0:8080:8080 -d image
@@ -15,12 +16,10 @@ before_install:
   - docker ps -a
   - docker exec -ti db nodetool status
   - docker exec -ti smsc bash -c 'ps -ef | grep jboss'
+  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log server.log
+  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log boot.log
+  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/cdr.log cdr.log
 
 script:
 #  - echo "The following test is pending: https://github.com/RestComm/smscgateway/blob/master/core/domain/src/test/java/org/mobicents/smsc/domain/SmscDatabaseManagementTest.java#L40"
-  - pip install -r requirements.txt
-  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log server.log
-  - cat server.log
-  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log boot.log
-  - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/cdr.log cdr.log
   - python test.py
