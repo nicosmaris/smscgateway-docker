@@ -20,6 +20,7 @@ script:
 #  - echo "The following test is pending: https://github.com/RestComm/smscgateway/blob/master/core/domain/src/test/java/org/mobicents/smsc/domain/SmscDatabaseManagementTest.java#L40"
   - pip install -r requirements.txt
   - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log server.log
+  - cat server.log
   - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log boot.log
   - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/cdr.log cdr.log
   - python test.py
