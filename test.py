@@ -70,7 +70,7 @@ def has_not(regex, filepath):
 
 
 def main():
-    has("INFO.*[org.jboss.bootstrap.microcontainer.ServerImpl] (main) JBoss (Microcontainer).*Started", 'server.log')
+    has("INFO.*org.jboss.bootstrap.microcontainer.ServerImpl.*JBoss.*Started", 'server.log')
     has_not("Not all SBB are running now", 'server.log')
 
 
