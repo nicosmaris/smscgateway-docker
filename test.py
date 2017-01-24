@@ -47,8 +47,8 @@ def line(regex, filepath):
     result = ''
     counter = 0
     with open(filepath, 'r') as inF:
-        counter += 1
         for line in inF:
+            counter += 1
             match = search(regex, line)
             if match:
                 matched = match.group()
@@ -71,7 +71,7 @@ def has_not(regex, filepath):
 
 def main():
     has("INFO.*org.jboss.bootstrap.microcontainer.ServerImpl.*JBoss.*Started", 'server.log')
-    has_not("Not all SBB are running now", 'server.log')
+    has_not(".*Not all SBB are running now.*", 'server.log')
 
 
 if __name__=='__main__':
