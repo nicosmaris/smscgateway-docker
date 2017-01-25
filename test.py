@@ -31,8 +31,28 @@ def has_not(regex, filepath):
 
 
 def main():
-    has("INFO.*org.jboss.bootstrap.microcontainer.ServerImpl.*JBoss.*Started", 'server.log')
-    has_not(".*Not all SBB are running now.*", 'server.log')
+    # =Association [name=ass1, associationType=SERVER, ipChannelType=SCTP, hostAddress=, hostPort=0, peerAddress=127.0.0.1, peerPort=8011, serverName=serv1, extraHostAddress=[]]
+    expressions = [
+        'INFO.*StackImpl.*Started.*DIAMETER.*',
+        'INFO.*ServerImpl.*Started.*Server',
+        'INFO.*ManagementImpl.*Started SCTP',
+        'INFO.*AssociationImpl.*Started Association',
+        'INFO.*M3UAManagementImpl.*Started M3UAManagement',
+        'INFO.*RouterImpl.*Started SCCP Router',
+        'INFO.*SccpResourceImpl.*Started Sccp Resource',
+        'INFO.*SmppManagement.*Started SmppManagement',
+        'INFO.*SmppShellExecutor.*Started SmppShellExecutor SmppManagement',
+        'INFO.*HttpUsersManagement.*Started of HttpUsersManagement',
+        'WARN.*SmscManagement.*Started SmscManagemet SmscManagement',
+        'INFO.*SMSCShellExecutor.*Started SMSCShellExecutor SmscManagement',
+        'INFO.*Ss7Management.*Started ...',
+        'INFO.*CounterProviderManagement-CounterHost.*Started ...',
+        'INFO.*TcapManagementJmx-TcapStack.*Started ...',
+        'INFO.*SmscStatProviderJmx-SMSC.*SmscStatProviderJmx Started ...',
+        'INFO.*org.jboss.bootstrap.microcontainer.ServerImpl.*JBoss.*Started'
+    ]
+    for expression in expressions:
+        has(expression, 'server.log')
 
 
 if __name__=='__main__':
