@@ -67,4 +67,4 @@ ln -sf /dev/stdout /opt/Restcomm-SMSC/version && \
 ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/default/log/server.log && \
 ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/default/log/boot.log
 
-EXPOSE 8080 
+EXPOSE 8080 3435

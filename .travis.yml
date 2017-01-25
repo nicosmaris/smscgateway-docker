@@ -7,19 +7,27 @@ services:
   - docker
 
 before_install: 
-  - pip install -r requirements.txt
   - docker run --name db --net=host -p 127.0.0.1:9042:9042 -p 127.0.0.1:9160:9160 -d cassandra
+
+install:
+  - echo 'travis is now testing that the docker can be built'
   - docker build -t image .
-  - docker run --name smsc --net=host -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/smscgateway-docker/master/env_files/restcomm_env_smsc_locally.sh" -p 0.0.0.0:8080:8080 -d image
+  - echo 'built successfully'
+  - echo 'travis is now testing that the docker can run'
+  - docker run --name smsc --net=host -e ENVCONFURL="https://raw.githubusercontent.com/RestComm/smscgateway-docker/master/env_files/restcomm_env_smsc_locally.sh" -p 0.0.0.0:8080:8080 -p 0.0.0.0:3435:3435 -d image
   - echo 'waiting 80 seconds for jboss to start...'
   - sleep 80
   - docker ps -a
   - docker exec -ti db nodetool status
   - docker exec -ti smsc bash -c 'ps -ef | grep jboss'
+
+script:
+  - pip install -r requirements.txt
   - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/server.log server.log
   - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/boot.log boot.log
   - docker cp smsc:/opt/Restcomm-SMSC/jboss-5.1.0.GA/server/simulator/log/cdr.log cdr.log
-
-script:
-#  - echo "The following test is pending: https://github.com/RestComm/smscgateway/blob/master/core/domain/src/test/java/org/mobicents/smsc/domain/SmscDatabaseManagementTest.java#L40"
   - python test.py
+  - echo 'run successfully'
+
+after_success:
+  - docker exec -ti smsc bash -c 'bash /opt/Restcomm-SMSC/jboss-5.1.0.GA/bin/ss7-cli.sh -v'
