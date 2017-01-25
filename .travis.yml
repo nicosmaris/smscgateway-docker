@@ -30,4 +30,4 @@ script:
   - echo 'run successfully'
 
 after_success:
-  - docker exec -ti smsc bash -c 'bash /opt/Restcomm-SMSC/jboss-5.1.0.GA/bin/ss7-cli.sh -v'
+  - docker exec -ti smsc bash /opt/Restcomm-SMSC/jboss-5.1.0.GA/bin/ss7-cli.sh -h
