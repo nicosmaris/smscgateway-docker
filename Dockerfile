@@ -57,17 +57,17 @@ rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
 rm -rf ${INSTALL_DIR}/cassandra/apache* && \
 echo "SMSC verion: 7.2.109" > ${INSTALL_DIR}/version && \
-mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/jbossservername/log && \
+mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/$jbossservername/log && \
 `# making the downloaded jboss files executable` \
 chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
 `# the entrypoint of phusion baseimage is rinit` \
 chmod +x /etc/my_init.d/restcomm*.sh && \
 chmod +x /tmp/.restcommenv.sh && \
 `# setting cassandra ip` \
-sed -i 's/<dbHosts value="127.0.0.1"\/>/<dbHosts value="$CASSANDRA_IP"\/>/' ${INSTALL_DIR}/jboss-5.1.0.GA/server/jbossservername/data/SmscManagement_smscproperties.xml && \
+sed -i 's/<dbHosts value="127.0.0.1"\/>/<dbHosts value="$CASSANDRA_IP"\/>/' ${INSTALL_DIR}/jboss-5.1.0.GA/server/$jbossservername/data/SmscManagement_smscproperties.xml && \
 `# attaching jboss log files to 'docker logs'` \
 ln -sf /dev/stdout /opt/Restcomm-SMSC/version && \
-ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/jbossservername/log/server.log && \
-ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/jbossservername/log/boot.log
+ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/$jbossservername/log/server.log && \
+ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/$jbossservername/log/boot.log
 
 EXPOSE 8080 3435
