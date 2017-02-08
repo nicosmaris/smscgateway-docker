@@ -5,7 +5,8 @@ FROM phusion/baseimage:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INSTALL_DIR /opt/Restcomm-SMSC
-ENV jboss.server.name default
+ENV jboss.server.name simulator
+ENV jbossservername simulator
 
 # installs first the db client (cqlsh) and java 7. This docker layer is the only one that can be cached initially
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
@@ -56,17 +57,17 @@ rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
 rm -rf ${INSTALL_DIR}/cassandra/apache* && \
 echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version && \
-mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/default/log && \
+mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/jbossservername/log && \
 `# making the downloaded jboss files executable` \
 chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
 `# the entrypoint of phusion baseimage is rinit` \
 chmod +x /etc/my_init.d/restcomm*.sh && \
 chmod +x /tmp/.restcommenv.sh && \
 `# setting cassandra ip` \
-sed -i 's/<dbHosts value="127.0.0.1"\/>/<dbHosts value="$CASSANDRA_IP"\/>/' ${INSTALL_DIR}/jboss-5.1.0.GA/server/default/data/SmscManagement_smscproperties.xml && \
+sed -i 's/<dbHosts value="127.0.0.1"\/>/<dbHosts value="$CASSANDRA_IP"\/>/' ${INSTALL_DIR}/jboss-5.1.0.GA/server/jbossservername/data/SmscManagement_smscproperties.xml && \
 `# attaching jboss log files to 'docker logs'` \
 ln -sf /dev/stdout /opt/Restcomm-SMSC/version && \
-ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/default/log/server.log && \
-ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/default/log/boot.log
+ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/jbossservername/log/server.log && \
+ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/jbossservername/log/boot.log
 
 EXPOSE 8080 3435
