@@ -62,6 +62,8 @@ chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
 `# the entrypoint of phusion baseimage is rinit` \
 chmod +x /etc/my_init.d/restcomm*.sh && \
 chmod +x /tmp/.restcommenv.sh && \
+`# setting cassandra ip` \
+sed -i 's/<dbHosts value="127.0.0.1"\/>/<dbHosts value="$CASSANDRA_IP"\/>/' ${INSTALL_DIR}/jboss-5.1.0.GA/server/default/data/SmscManagement_smscproperties.xml && \
 `# attaching jboss log files to 'docker logs'` \
 ln -sf /dev/stdout /opt/Restcomm-SMSC/version && \
 ln -sf /dev/stdout /opt/Restcomm-SMSC/jboss-5.1.0.GA/server/default/log/server.log && \
