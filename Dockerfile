@@ -56,7 +56,7 @@ mv /opt/restcomm-smsc-*/*/ ${INSTALL_DIR} && \
 rm restcomm-smsc.zip && \
 rm -rf ${INSTALL_DIR}/docs && \
 rm -rf ${INSTALL_DIR}/cassandra/apache* && \
-echo "SMSC verion: `cat /tmp/version`" > ${INSTALL_DIR}/version && \
+echo "SMSC verion: 7.2.109" > ${INSTALL_DIR}/version && \
 mkdir -p ${INSTALL_DIR}/jboss-5.1.0.GA/server/jbossservername/log && \
 `# making the downloaded jboss files executable` \
 chmod +x ${INSTALL_DIR}/jboss-5.1.0.GA/bin/* && \
