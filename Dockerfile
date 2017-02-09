@@ -5,8 +5,8 @@ FROM phusion/baseimage:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV INSTALL_DIR /opt/Restcomm-SMSC
-ENV jboss.server.name default
-ENV jbossservername default
+ENV jboss.server.name simulator
+ENV jbossservername simulator
 
 # installs first the db client (cqlsh) and java 7. This docker layer is the only one that can be cached initially
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
